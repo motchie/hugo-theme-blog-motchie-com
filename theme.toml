@@ -1,0 +1,12 @@
+name = "Hugo Theme for motchie.com"
+license = "MIT"
+licenselink = "https://github.com/motchie/hugo-theme-motchie-com/blob/master/LICENSE"
+description = "Hugo Theme for motchie.com."
+homepage = "http://blog.motchie.com/"
+tags = []
+features = []
+min_version = "0.01"
+
+[author]
+  name = "Toru Motchie MOCHIDA"
+  homepage = "https://blog.motchie.com/"

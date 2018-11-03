@@ -1,0 +1,13 @@
+{{- partial "head.html" . -}}
+{{- partial "header.html" . -}}
+<main>
+<article>
+<h1><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></h1>
+<section>
+<h2>{{ .Page.Title }}</h2>
+<p class="entrydate"><time datetime="{{.Date.Format "2006-01-02"}}">{{.Date.Format "2006年1月2日"}}</time></p>
+{{ .Page.Content }}
+</section>
+</article>
+</main>
+{{- partial "footer.html" . -}}
