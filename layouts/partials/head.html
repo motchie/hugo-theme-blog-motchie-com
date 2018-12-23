@@ -31,7 +31,9 @@ else window.addEventListener('load', loadDeferredStyles);
 {{ template "_internal/twitter_cards.html" . }}
 
 {{ template "_internal/google_analytics_async.html" . }}
-<!-- json-ld -->
+
+{{- block "schema-dot-org" . }}{{- end }}
+
 <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.13.min.js"></script>
 <script src="/js/ChattyKathy.js"></script>

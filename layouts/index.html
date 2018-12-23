@@ -4,7 +4,7 @@
 <h1><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></h1>
 <section>
 <h2>最近の記事</h2>
-{{ range .Pages }}
+{{ range where .Pages "Section" "archives" }}
 <section>
 <h3><a href="{{.Permalink}}">{{.Title}}</a></h3>
 <p class="entrydate"><time datetime="{{.Date.Format "2006-01-02"}}">{{.Date.Format "2006年1月2日"}}</time></p>
