@@ -9,7 +9,9 @@
 {{ end }}
 <meta name="viewport" content="width=device-width,initial-scale=1">
 {{- .Hugo.Generator -}}
-<link rel="alternate" type="application/rss+xml" href="https://blog.motchie.com/atom.xml" >
+{{ range .AlternativeOutputFormats -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+{{ end -}}
 <noscript id="deferred-styles">
     <link rel="stylesheet" type="text/css" href="/css/basic.css"/>
 </noscript>
