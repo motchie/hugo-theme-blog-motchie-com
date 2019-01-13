@@ -5,11 +5,10 @@ phases:
     commands:
       - curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
       - amazon-linux-extras install ruby2.4
-      - yum -y install tar gzip nodejs git awscli rubygem-rdoc
+      - yum -y install tar gzip rsync nodejs git awscli rubygem-rdoc
       - gem install asciidoctor
       - curl -o- -L https://yarnpkg.com/install.sh | bash
       - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-      - yarn install
       - curl -Ls ${HUGO_URL} -o /tmp/hugo.tar.gz
       - tar xf /tmp/hugo.tar.gz -C /tmp
       - mv /tmp/hugo /usr/local/bin/hugo
@@ -21,9 +20,12 @@ phases:
       - git clone https://github.com/motchie/blog.motchie.com
       - cd blog.motchie.com
       - git checkout ${BRANCH}
+      - yarn install
+      - mkdir -p themes/hugo-theme-blog-motchie-com
+      - rsync -avz ${CODEBUILD_SRC_DIR}/ ./themes/hugo-theme-blog-motchie-com/
   build:
     commands:
-      - hugo --baseURL ${BASE_URL} --themesDir {$CODEBUILD_SRC_DIR}
+      - hugo --baseURL ${BASE_URL}
       - find ./public/ -name "*.html" -exec node_modules/js-beautify/js/bin/html-beautify.js --config js-beautify.json --replace {} \;
       - node_modules/js-beautify/js/bin/css-beautify.js --config js-beautify.json --replace public/css/basic.css
   post_build:
