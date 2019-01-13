@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
+      - amazon-linux-extras install ruby2.4
+      - yum -y install tar gzip nodejs git awscli rubygem-rdoc
+      - gem install asciidoctor
+      - curl -o- -L https://yarnpkg.com/install.sh | bash
+      - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+      - yarn install
+      - curl -Ls ${HUGO_URL} -o /tmp/hugo.tar.gz
+      - tar xf /tmp/hugo.tar.gz -C /tmp
+      - mv /tmp/hugo /usr/local/bin/hugo
+      - rm -rf /tmp/hugo*
+  pre_build:
+    commands:
+      - mkdir /tmp/blog/
+      - cd /tmp/blog/
+      - git clone https://github.com/motchie/blog.motchie.com
+      - git checktout ${BRANCH}
+  build:
+    commands:
+      - hugo --baseURL ${BASE_URL} --themesDir {$CODEBUILD_SRC_DIR}
+      - find ./public/ -name "*.html" -exec node_modules/js-beautify/js/bin/html-beautify.js --config js-beautify.json --replace {} \;
+      - node_modules/js-beautify/js/bin/css-beautify.js --config js-beautify.json --replace public/css/basic.css
+  post_build:
+    commands:
+      - aws s3 sync public/ s3://${BUCKET_NAME} --delete --acl public-read
+      - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/*"
+      - curl "https://www.google.com/ping?sitemap=https%3A%2F%2Fblog.motchie.com%2Fsitemap.xml"
+      - curl "https://www.bing.com/ping?sitemap=https%3A%2F%2Fblog.motchie.com%2Fsitemap.xml"
