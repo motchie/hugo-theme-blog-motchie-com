@@ -22,7 +22,7 @@ phases:
       - git checkout ${BRANCH}
       - yarn install
       - mkdir -p themes/hugo-theme-blog-motchie-com
-      - rsync -avz ${CODEBUILD_SRC_DIR}/ ./themes/hugo-theme-blog-motchie-com/
+      - rsync -avz ${CODEBUILD_SRC_DIR}/ --exclude='.git/' ./themes/hugo-theme-blog-motchie-com/
   build:
     commands:
       - hugo --baseURL ${BASE_URL}
