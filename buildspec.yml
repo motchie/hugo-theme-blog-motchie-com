@@ -19,8 +19,8 @@ phases:
       - mkdir /tmp/blog/
       - cd /tmp/blog/
       - git clone https://github.com/motchie/blog.motchie.com
-      - git checkout ${BRANCH}
       - cd blog.motchie.com
+      - git checkout ${BRANCH}
   build:
     commands:
       - hugo --baseURL ${BASE_URL} --themesDir {$CODEBUILD_SRC_DIR}
